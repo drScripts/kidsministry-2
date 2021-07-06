@@ -120,6 +120,7 @@ class PembimbingController extends BaseController
             'id'    => $id,
             'pembimbing'    => $this->pembimbing_model->find($id),
             'validation'    => \Config\Services::validation(),
+            'region'        => $this->cabangName['nama_cabang'],
         ];
 
         return view('dashboard/pembimbing/edit', $data);
@@ -127,7 +128,7 @@ class PembimbingController extends BaseController
 
     public function update($id)
     {
-        $validate = $this->validate([
+        $validator = [
             'pembimbing_name' => [
                 'rules'     => 'required|string',
                 'errors'    => [
@@ -135,7 +136,16 @@ class PembimbingController extends BaseController
                     'required'  => 'Please Input Pembimbing Name',
                 ],
             ],
-        ]);
+        ];
+        if ($this->request->getVar('pembimbing_tgllahir') != null) {
+            $validator['pembimbing_tgllahir'] =  [
+                'rules'     => 'valid_date[Y-m-d]',
+                'errors'    => [
+                    'valid_date'    => 'Date Must Be Valid Date',
+                ],
+            ];
+        }
+        $validate = $this->validate($validator);
 
         if (!$validate) {
             return redirect()->to('/pembimbing/edit/' . $id)->withInput();
@@ -144,6 +154,7 @@ class PembimbingController extends BaseController
         $this->pembimbing_model->save([
             'id_pembimbing'     => $id,
             'name_pembimbing'   => $this->request->getVar('pembimbing_name'),
+            'pembimbing_tgl_lahir' => $this->request->getVar('pembimbing_tgllahir'),
         ]);
 
         session()->setFlashData('success_update', 'Pembimbing Data Successfully Updated');

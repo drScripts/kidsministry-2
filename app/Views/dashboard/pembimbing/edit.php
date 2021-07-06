@@ -25,6 +25,19 @@ if ($validation->hasError('pembimbing_name')) {
                 <?= $validation->getError('pembimbing_name'); ?>
             </div>
         </div>
+        <?php if ($region == 'Kopo') : ?>
+            <div class="row">
+                <div class="col-5">
+                    <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500" data-aos-delay="700">
+                        <label for="tglLahir" class="white-fonts">Pembimbing Tanggal Lahir</label>
+                        <input type="date" name="pembimbing_tgllahir" class="<?= ($validation->hasError('pembimbing_tgllahir')) ? 'is-invalid' : ''; ?> form-control" id="tglLahir" value="<?= $pembimbing['pembimbing_tgl_lahir']; ?>" />
+                        <div class="invalid-feedback ">
+                            <?= $validation->getError('pembimbing_tgllahir'); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
         <div class="form-group form-check">
             <button type="submit" class="btn btn-primary mt-3" data-aos="fade-right" data-aos-duration="500" data-aos-delay="700">Submit</button>
         </div>
