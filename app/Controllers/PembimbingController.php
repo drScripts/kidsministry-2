@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\CabangModel;
 use App\Models\PembimbingsModel;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -12,10 +13,14 @@ class PembimbingController extends BaseController
 {
 
     protected $pembimbing_model;
+    protected $cabangModel;
+    protected $cabangName;
 
     public function __construct()
     {
         $this->pembimbing_model = new PembimbingsModel();
+        $this->cabangModel = new CabangModel();
+        $this->cabangName = $this->cabangModel->select('nama_cabang')->find(user()->toArray()['region']);
     }
 
     public function index()
@@ -23,7 +28,7 @@ class PembimbingController extends BaseController
         // mengambil penghitungan data
         $current_page = $this->request->getVar('page_pembimbing') ? $this->request->getVar('page_pembimbing') : 1;
         if (!in_groups('pusat')) {
-           $pembimbings = $this->pembimbing_model->where('region_pembimbing', user()->toArray()['region'])->findAll();
+            $pembimbings = $this->pembimbing_model->where('region_pembimbing', user()->toArray()['region'])->findAll();
 
             $data = [
                 'title'        => 'Pembimbing',
@@ -32,10 +37,10 @@ class PembimbingController extends BaseController
         } else {
             $cabang = [];
 
-            $data = $this->pembimbing_model->join('cabang','cabang.id_cabang = pembimbings.region_pembimbing')->findAll();
-            $pembimbings = $this->pembimbing_model->join('cabang','cabang.id_cabang = pembimbings.region_pembimbing')->orderby('nama_cabang','ASC')->paginate(7,'pembimbing');
+            $data = $this->pembimbing_model->join('cabang', 'cabang.id_cabang = pembimbings.region_pembimbing')->findAll();
+            $pembimbings = $this->pembimbing_model->join('cabang', 'cabang.id_cabang = pembimbings.region_pembimbing')->orderby('nama_cabang', 'ASC')->paginate(7, 'pembimbing');
 
-            foreach ($data as $pembimbing ) {
+            foreach ($data as $pembimbing) {
                 $cabang[] = $pembimbing['nama_cabang'];
             }
 
@@ -52,7 +57,7 @@ class PembimbingController extends BaseController
             ];
         }
 
-        
+
         return view('dashboard/pembimbing/index', $data);
     }
 
@@ -61,13 +66,14 @@ class PembimbingController extends BaseController
         $data = [
             'title' => 'Add Pembimbing',
             'validation' => \Config\Services::validation(),
+            'region'     => $this->cabangName['nama_cabang'],
         ];
         return view('dashboard/pembimbing/add', $data);
     }
 
     public function insert()
     {
-        $validate = $this->validate([
+        $validator = [
             'pembimbing_name' => [
                 'rules'     => 'required|is_unique[pembimbings.name_pembimbing]|max_length[255]',
                 'errors'    => [
@@ -75,15 +81,26 @@ class PembimbingController extends BaseController
                     'is_unique' => "Pembimbing Already Exists Please Check The Name Correctly !",
                 ],
             ],
-        ]);
+        ];
+
+        if ($this->request->getVar('pembimbing_tgllahir') != null) {
+            $validator['pembimbing_tgllahir'] =  [
+                'rules'     => 'valid_date[Y-m-d]',
+                'errors'    => [
+                    'valid_date'    => 'Date Must Be Valid Date',
+                ],
+            ];
+        }
+        $validate = $this->validate($validator);
 
         if (!$validate) {
             return redirect()->to('/pembimbing/add')->withInput();
         }
 
         $this->pembimbing_model->save([
-            'name_pembimbing'   => $this->request->getVar('pembimbing_name'),
-            'region_pembimbing' => $this->region,
+            'name_pembimbing'       => $this->request->getVar('pembimbing_name'),
+            'region_pembimbing'     => $this->region,
+            'pembimbing_tgl_lahir'   => $this->request->getVar('pembimbing_tgllahir'),
         ]);
         session()->setFlashData('success_add', 'Pembimbing Successfully Added !');
         return redirect()->to('/pembimbing');

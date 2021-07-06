@@ -44,32 +44,20 @@ class AbsensiController extends BaseController
 
     public function index()
     {
-        // mengambil penghitungan data
-
-        $sunday_date_controller = $this->getDateName();
-        $sunday_date_model = $this->absensiModel->getDateName();
         if (!in_groups('pusat')) {
-            $current_page = $this->request->getVar('page_absensi') ? $this->request->getVar('page_absensi') : 1;
 
-            $absensis = $this->absensiModel->getAllDataFetch()->paginate(7, 'absensi');
-            $pager = $this->absensiModel->pager;
+            $absensis = $this->absensiModel->getAllDataFetch()->findAll();
 
 
             $data = [
                 'title'         => 'Absensi',
                 'absensis'      => $absensis,
-                'pager'         => $pager,
-                'current_page'  => $current_page,
                 'quiz'          => boolval($this->quiz),
                 'zoom'          => boolval($this->zoom),
                 'aba'           => boolval($this->aba),
                 'komsel'        => boolval($this->komsel),
             ];
 
-            if (in_groups('superadmin')) {
-                $data['sunday_date_model']          = $sunday_date_model;
-                $data['sunday_date_controller']     = $sunday_date_controller;
-            }
             return view('dashboard/absensi/index', $data);
         } else {
             $current_page = $this->request->getVar('page_absensi') ? $this->request->getVar('page_absensi') : 1;
@@ -115,8 +103,6 @@ class AbsensiController extends BaseController
                 'sunday_dates'  => $sunday_date,
                 'quiz'          => $this->quiz,
                 'zoom'          => boolval($this->zoom),
-                'sunday_date_model'         => $sunday_date_model,
-                'sunday_date_controller'    => $sunday_date_controller,
             ];
             return view('dashboard/absensi/index', $data);
         }
@@ -164,7 +150,7 @@ class AbsensiController extends BaseController
 
         return view('dashboard/absensi/add', $data);
     }
-    
+
     public function validator()
     {
         $validator = [
@@ -246,9 +232,9 @@ class AbsensiController extends BaseController
 
     public function insert()
     {
-        $api = new GoogleApiServices(); 
+        $api = new GoogleApiServices();
         $validator = $this->validator();
-        
+
         $validate = $this->validate($validator);
         if (!$validate) {
             return redirect()->to('/absensi/add')->withInput();
@@ -290,7 +276,7 @@ class AbsensiController extends BaseController
         //// get all request
         $pembimbingId = $this->request->getVar('pembimbing');
         $childrenId = $this->request->getVar('children');
-        
+
         $quiz = '';
         $zoom = '';
         $aba = '';
@@ -306,7 +292,7 @@ class AbsensiController extends BaseController
         } else {
             $zoom = '-';
         }
-        
+
         if (boolval($this->aba)) {
             $aba = $this->request->getVar('aba');
         } else {
@@ -342,10 +328,10 @@ class AbsensiController extends BaseController
         if ($pictureFile->getName() != "") {
             $pictExt = $pictureFile->getClientExtension();
             $pict = 'yes';
-            
-            if($kelas == 'Pratama' && $regionName == 'Kopo'){
+
+            if ($kelas == 'Pratama' && $regionName == 'Kopo') {
                 $pictId = $api->push_file($childrenName, $fotoIdBesar, $pictExt, $pictureFile);
-            }elseif ($kelas == 'Balita' || $kelas == 'Batita' || $kelas == 'Pratama' || $kelas == 'Daud' || $kelas == 'Samuel' || $kelas == 'Balita/Pratama') {
+            } elseif ($kelas == 'Balita' || $kelas == 'Batita' || $kelas == 'Pratama' || $kelas == 'Daud' || $kelas == 'Samuel' || $kelas == 'Balita/Pratama') {
                 $pictId = $api->push_file($childrenName, $fotoIdKecil, $pictExt, $pictureFile);
             } elseif ($kelas == 'Teens') {
                 $pictId = $api->push_file($childrenName, $fotoIdTeen, $pictExt, $pictureFile);
@@ -359,10 +345,9 @@ class AbsensiController extends BaseController
         if ($videoFile->getName() != "") {
             $videoExt = $videoFile->getClientExtension();
             $video = 'yes';
-            if($kelas == 'Pratama' && $regionName == 'Kopo'){
-                 $videoIds = $api->push_file($childrenName, $videoIdBesar, $videoExt, $videoFile);
-            }
-            elseif ($kelas == 'Balita' || $kelas == 'Batita' || $kelas == 'Pratama' || $kelas == 'Pratama' || $kelas == 'Daud' || $kelas == 'Samuel' || $kelas == 'Balita/Pratama') {
+            if ($kelas == 'Pratama' && $regionName == 'Kopo') {
+                $videoIds = $api->push_file($childrenName, $videoIdBesar, $videoExt, $videoFile);
+            } elseif ($kelas == 'Balita' || $kelas == 'Batita' || $kelas == 'Pratama' || $kelas == 'Pratama' || $kelas == 'Daud' || $kelas == 'Samuel' || $kelas == 'Balita/Pratama') {
                 $videoIds = $api->push_file($childrenName, $videoIdKecil, $videoExt, $videoFile);
             } elseif ($kelas == 'Teens') {
                 $videoIds = $api->push_file($childrenName, $videoIdTeen, $videoExt, $videoFile);
@@ -372,12 +357,12 @@ class AbsensiController extends BaseController
         } else {
             $video = 'no';
         }
-        
+
         $date_file_name = $this->getDateName();
         $fileNames = explode(" ", $date_file_name);
         $month = $fileNames[1];
         $year = $fileNames[2];
-        
+
         $array = [
             'children_id'   => $childrenId,
             'pembimbing_id' => $pembimbingId,
@@ -396,12 +381,10 @@ class AbsensiController extends BaseController
         ];
 
         session()->setFlashData('data', $array);
-            
-                session()->setFlashData('success_add', "Successfully Add Absensi Of $childrenName !");
-    
-                return redirect()->to('/absensi/add');
-        
-        
+
+        session()->setFlashData('success_add', "Successfully Add Absensi Of $childrenName !");
+
+        return redirect()->to('/absensi/add');
     }
 
     public function delete($id)
@@ -505,9 +488,9 @@ class AbsensiController extends BaseController
 
     public function update($id)
     {
-         $data = [];
+        $data = [];
 
-       
+
         $dataAnak = $this->absensiModel->join('childrens', 'childrens.id_children = absensis.children_id')->join('pembimbings', 'pembimbings.id_pembimbing = absensis.pembimbing_id')->join('kelas', 'kelas.id_class = childrens.role')->find($id);
 
         $data_region = $this->cabangModel->find($this->region);
@@ -625,7 +608,7 @@ class AbsensiController extends BaseController
 
     public function getAbsensiByPembimbing($id)
     {
-        $children =  $this->childrenModel->where('id_pembimbing', $id)->get()->getResultArray();
+        $children =  $this->childrenModel->where('id_pembimbing', $id)->findAll();
         return json_encode($children);
     }
 
@@ -738,7 +721,6 @@ class AbsensiController extends BaseController
             $data = [
                 'title'         => 'Absensi History',
                 'datas'         => $dataMonth,
-                'years'         => $tahun,
             ];
         } else {
             $dataAbsensi = [];
@@ -833,7 +815,7 @@ class AbsensiController extends BaseController
             ->where('region_pembimbing', user()->toArray()['region'])
             ->where('month', $month)
             ->where('year', $year)
-            ->get()->getResultArray();
+            ->findAll();
 
         $tanggal_awal = $data[0]['sunday_date'];
         $data_semua = [];
@@ -847,7 +829,7 @@ class AbsensiController extends BaseController
 
             if ($absen['sunday_date'] == $tanggal_awal) {
 
-               $data_baru = [
+                $data_baru = [
                     'Nama Anak'       => $absen['children_name'],
                     'Code Anak'       => $absen['code'],
                     'Kelas'           => $absen['nama_kelas'],
@@ -888,10 +870,10 @@ class AbsensiController extends BaseController
                 ->join('kelas', 'kelas.id_class = childrens.role')
                 ->where('region_pembimbing', user()->toArray()['region'])
                 ->where('sunday_date', $tanggal)
-                ->get()->getResultArray();
+                ->findALl();
 
             foreach ($datas as $data) {
-                 $data_baru = [
+                $data_baru = [
                     'Nama Anak'       => $data['children_name'],
                     'Code Anak'       => $data['code'],
                     'Kelas'           => $data['nama_kelas'],

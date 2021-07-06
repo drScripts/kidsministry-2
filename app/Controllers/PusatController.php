@@ -208,14 +208,14 @@ class PusatController extends BaseController
 
     public function detailsAbsen($id)
     {
-        
+
         $data = $this->absensiModel->join('childrens', 'childrens.id_children = absensis.children_id')
             ->join('pembimbings', 'pembimbings.id_pembimbing = absensis.pembimbing_id')
             ->join('cabang', 'cabang.id_cabang = pembimbings.region_pembimbing')
             ->join('users', 'users.id = absensis.created_by')
             ->select('video,image,absensis.quiz as quis,sunday_date,absensis.created_at as absensiCreatedAt,children_name,name_pembimbing,nama_cabang,username,absensis.updated_at as absensiUpdatedAt,absensis.updated_by as absensiUpdateBy,absensis.zoom as zooms,absensis.aba as abas,absensis.komsel as komsels')
             ->find($id);
-            
+
         $data = [
             'absensis'  => $data,
             'title'     => "Detail's Absensi",
@@ -247,7 +247,6 @@ class PusatController extends BaseController
     {
         $data = [];
         if ($mode == null) {
-            $current_page = $this->request->getVar('page_tracking') ? $this->request->getVar('page_tracking') : 1;
             $data = $this->absensiModel->onlyDeleted()
                 ->join('childrens', 'childrens.id_children = absensis.children_id')
                 ->join('pembimbings', 'pembimbings.id_pembimbing = absensis.pembimbing_id')
@@ -255,13 +254,10 @@ class PusatController extends BaseController
                 ->join('cabang', 'cabang.id_cabang = pembimbings.region_pembimbing')
                 ->select('children_name,absensis.deleted_at as absensiDeleted,username,email,name_pembimbing,nama_cabang,id_absensi')
                 ->orderBy('absensis.deleted_at', 'DESC')
-                ->paginate(7, 'tracking');
-            $pager = $this->absensiModel->pager;
+                ->findAll();
             $data = [
                 'title'          => "Tracking Absensi",
                 'datas'          => $data,
-                'pager'          => $pager,
-                'current_page'   => $current_page,
             ];
         } elseif ($mode == 'children') {
             $current_page = $this->request->getVar('pagetracking') ? $this->request->getVar('page_tracking') : 1;
@@ -280,12 +276,12 @@ class PusatController extends BaseController
                 'datas'         => $data,
                 'pager'         => $pager,
                 'current_page'   => $current_page,
-            ]; 
+            ];
         }
 
         return view('dashboard/tracking/index', $data);
     }
-    
+
     public function deleteTracking($id)
     {
         $nama = $this->absensiModel->withDeleted()->join('childrens', 'childrens.id_children = absensis.children_id')->find($id)['children_name'];
@@ -324,7 +320,7 @@ class PusatController extends BaseController
         foreach ($sunday_date as $sd) {
             foreach ($data as $d) {
                 if ($d['sunday_date'] == $sd) {
-                   $semua[] = [
+                    $semua[] = [
                         'Nama Anak'         => $d['children_name'],
                         'Kode Anak'         => $d['code'],
                         'Role Anak'         => $d['nama_kelas'],
@@ -340,7 +336,7 @@ class PusatController extends BaseController
                 }
             }
 
-             $semua[] = [
+            $semua[] = [
                 'Nama Anak'         => '',
                 'Kode Anak'         => '',
                 'Role Anak'         => '',
@@ -405,7 +401,7 @@ class PusatController extends BaseController
         $spredsheet->getActiveSheet()->getColumnDimensionByColumn(11)->setWidth(15);
         $spredsheet->getActiveSheet()->getColumnDimensionByColumn(12)->setWidth(20);
 
-         $spredsheet->getActiveSheet()->getStyle('A')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $spredsheet->getActiveSheet()->getStyle('A')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
         $spredsheet->getActiveSheet()->getStyle('F')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
         $spredsheet->getActiveSheet()->getStyle('G')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
         $spredsheet->getActiveSheet()->getStyle('H')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
@@ -433,7 +429,7 @@ class PusatController extends BaseController
         $zoom = $cabang['zoom'];
         $aba = $cabang['aba'];
         $komsel = $cabang['komsel'];
-        
+
         $data = [
             'title' => 'Settings',
             'quiz'  => boolval($quiz),
@@ -522,7 +518,7 @@ class PusatController extends BaseController
                     ];
                 }
             }
-        }elseif ($mode == 'notifyBirthday') {
+        } elseif ($mode == 'notifyBirthday') {
             $hasil = 0;
             $request = $this->request->getVar()['status'];
             if ($request == 0) {

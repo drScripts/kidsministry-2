@@ -1,63 +1,54 @@
-<!--
-=========================================================
-* * Black Dashboard - v1.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/black-dashboard
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
   <link rel="apple-touch-icon" href="<?= base_url('/assets/img/Artboard.png'); ?>">
   <link rel="icon" type="image/png" href="<?= base_url('/assets/img/Artboard.png'); ?>">
+
   <title>
     GBI PPL Absen <?= (isset($title) ? " | $title" : ' '); ?>
   </title>
-  <!--     Fonts and icons     -->
-  <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
-  <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-  <!-- Nucleo Icons -->
-  <link href="<?= base_url(); ?>/assets/css/nucleo-icons.css" rel="stylesheet" />
-  <!-- CSS Files -->
-  <link href="<?= base_url(); ?>/assets/css/black-dashboard.min.css?v=1.0.0" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="<?= base_url(); ?>/assets/demo/demo.css" rel="stylesheet" />
-  <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/my-css.css">
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <link rel="stylesheet" href="<?= base_url('assets/css/jquery.dataTables.min.css'); ?>">
 
-  <script src="<?= base_url(); ?>/assets/js/core/jquery.min.js"></script>
-  <script src="<?= base_url(); ?>/assets/js/core/popper.min.js"></script>
-  <!--   Core JS Files   -->
-  <script src="<?= base_url(); ?>/assets/js/core/bootstrap.min.js"></script>
-  <script src="<?= base_url(); ?>/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <!--  Google Maps Plugin    -->
-  <!-- Chart JS -->
-  <script src="<?= base_url(); ?>/assets/js/plugins/chartjs.min.js"></script>
-  <!--  Notifications Plugin    -->
-  <script src="<?= base_url(); ?>/assets/js/plugins/bootstrap-notify.js"></script>
-  <!-- Control Center for Black Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="<?= base_url(); ?>/assets/js/black-dashboard.min.js?v=1.0.0"></script><!-- Black Dashboard DEMO methods, don't include it in your project! -->
+  <!--     Fonts and icons     -->
+  <link href="<?= base_url(); ?>/assets/fontawesome/css/all.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="<?= base_url('assets/css/sb-admin-2.min.css'); ?>" rel="stylesheet">
+  <link rel="stylesheet" href="<?= base_url('assets/css/jquery.dataTables.min.css'); ?>">
+  <link rel="stylesheet" href="<?= base_url('assets/css/my-css.css'); ?>">
+  <link rel="stylesheet" href="<?= base_url('assets/demo/demo.css'); ?>">
+
+  <!-- javascript -->
+  <!-- Bootstrap core -->
   <script src="<?= base_url(); ?>/assets/demo/demo.js"></script>
-  <script src="https://kit.fontawesome.com/01059e4e8b.js" crossorigin="anonymous"></script>
+  <script src="<?= base_url('assets/js/jquery.min.js'); ?>"></script>
+  <!--  Notifications Plugin    -->
+  <script src="<?= base_url(); ?>/assets/js/bootstrap-notify.js"></script>
+  <!-- Core plugin JavaScript-->
+  <script src="<?= base_url(); ?>/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="<?= base_url(); ?>/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <script src="<?= base_url('/assets/js/popper.min.js'); ?>"></script>
+  <!-- Chart JS -->
+  <script src="<?= base_url(); ?>/assets/js/chartjs.min.js"></script>
+
   <!-- sweet alert 2 -->
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script data-ad-client="ca-pub-9996873752925387" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+  <!-- Page level plugins -->
+  <script src="<?= base_url(); ?>/assets/vendor/chart.js/Chart.min.js"></script>
+
+
+
   <!-- blocking inspect -->
-   <script>
+  <!-- <script>
     // Disable inspect element
     $(document).bind("contextmenu", function(e) {
       e.preventDefault();
@@ -80,7 +71,7 @@
         return false;
       }
     });
-  </script>
+  </script> -->
 </head>
 
-<body class="">
+<body id="page-top" class="<?= strpos(current_url(true)->getPath(), 'login') !== false || strpos(current_url(true)->getPath(), 'register') !== false || strpos(current_url(true)->getPath(), 'forgot') !== false || strpos(current_url(true)->getPath(), 'reset') !== false ? 'bg-gradient-primary' : ''; ?>">

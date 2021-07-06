@@ -21,7 +21,7 @@ gradientChartOptionsConfigurationWithTooltipPurple = {
         barPercentage: 1.6,
         gridLines: {
           drawBorder: false,
-          color: "rgba(29,140,248,0.0)",
+          color: "rgba(29,140,248,0.1)",
           zeroLineColor: "transparent",
         },
         ticks: {
@@ -81,7 +81,14 @@ $.ajax({
           {
             label: "Jumlah Absensi",
             fill: true,
-            backgroundColor: gradientStroke,
+            backgroundColor: [
+              "rgba(255, 99, 132, 0.2)",
+              "rgba(54, 162, 235, 0.2)",
+              "rgba(255, 206, 86, 0.2)",
+              "rgba(75, 192, 192, 0.2)",
+              "rgba(153, 102, 255, 0.2)",
+              "rgba(255, 159, 64, 0.2)",
+            ],
             borderColor: "#d346b1",
             borderWidth: 2,
             borderDash: [],
@@ -187,7 +194,14 @@ $.ajax({
           {
             label: "Jumlah Absensi Mingguan",
             fill: true,
-            backgroundColor: gradientStrokes,
+            backgroundColor: [
+              "rgba(255, 99, 132, 0.2)",
+              "rgba(54, 162, 235, 0.2)",
+              "rgba(255, 206, 86, 0.2)",
+              "rgba(75, 192, 192, 0.2)",
+              "rgba(153, 102, 255, 0.2)",
+              "rgba(255, 159, 64, 0.2)",
+            ],
             borderColor: "#d346b1",
             borderWidth: 2,
             borderDash: [],
@@ -228,7 +242,6 @@ $("#month").on("change", function () {
         chart_labels_month.push(datas.week);
         chart_data_month.push(datas.jumlah);
       });
-
       var ctxs = document.getElementById("chartBig2").getContext("2d");
 
       var ctxs = document.getElementById("chartBig2").getContext("2d");
@@ -246,7 +259,14 @@ $("#month").on("change", function () {
             {
               label: "Jumlah Absensi Mingguan",
               fill: true,
-              backgroundColor: gradientStrokes,
+              backgroundColor: [
+                "rgba(255, 99, 132, 0.2)",
+                "rgba(54, 162, 235, 0.2)",
+                "rgba(255, 206, 86, 0.2)",
+                "rgba(75, 192, 192, 0.2)",
+                "rgba(153, 102, 255, 0.2)",
+                "rgba(255, 159, 64, 0.2)",
+              ],
               borderColor: "#d346b1",
               borderWidth: 2,
               borderDash: [],

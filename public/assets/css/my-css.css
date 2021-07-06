@@ -1,50 +1,3 @@
-.black-fonts {
-  color: black !important;
-}
-
-.white-fonts {
-  color: white !important;
-}
-
-.grey-fonts {
-  color: rgb(169, 169, 169) !important;
-}
-
-.pointer {
-  cursor: pointer !important;
-}
-
-select.cabang {
-  background-color: rgba(238, 241, 241, 1) !important;
-  color: black !important;
-}
-
-select {
-  background-color: #1f212f !important;
-  color: white !important;
-}
-
-option.cabang {
-  color: black !important;
-}
-
-option {
-  color: white !important;
-}
-
-select.card-select {
-  background-color: #27293d !important;
-  color: white !important;
-}
-
-.dropdown-menu {
-  background-color: #27293d !important;
-}
-
-.dropdown-menu .dropdown-item {
-  color: white !important;
-}
-
 .switch {
   position: relative;
   display: inline-block;
@@ -52,7 +5,7 @@ select.card-select {
   height: 34px;
 }
 
-.switch input { 
+.switch input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -66,8 +19,8 @@ select.card-select {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .slider:before {
@@ -78,16 +31,16 @@ select.card-select {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #2196f3;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #2196f3;
 }
 
 input:checked + .slider:before {
@@ -104,4 +57,96 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
- 
+
+/*!
+Animate.css - http://daneden.me/animate
+Licensed under the MIT license - http://opensource.org/licenses/MIT
+
+Copyright (c) 2015 Daniel Eden
+*/
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+.animated.infinite {
+  animation-iteration-count: infinite;
+}
+.animated.hinge {
+  animation-duration: 2s;
+}
+.animated.bounceIn,
+.animated.bounceOut,
+.animated.flipOutX,
+.animated.flipOutY {
+  animation-duration: 0.75s;
+}
+@keyframes f {
+  0%,
+  to {
+    transform: translateZ(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translate3d(-10px, 0, 0);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translate3d(10px, 0, 0);
+  }
+}
+.shake {
+  animation-name: f;
+}
+@keyframes g {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.fadeInDown {
+  animation-name: g;
+}
+@keyframes h {
+  0% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.fadeOut {
+  animation-name: h;
+}
+@keyframes i {
+  0% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+}
+.fadeOutDown {
+  animation-name: i;
+}
+@keyframes j {
+  0% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+}
+.fadeOutUp {
+  animation-name: j;
+}

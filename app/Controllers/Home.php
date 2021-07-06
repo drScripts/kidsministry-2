@@ -25,7 +25,7 @@ class Home extends BaseController
 		$date = date('Y');
 		$month = [];
 		if (!in_groups('pusat')) {
-		    $notify = user()->toArray()['notify_birthday'];
+			$notify = user()->toArray()['notify_birthday'];
 			$child_birthday = $this->childrenModel->birthDayChildren();
 			$ultah = [];
 			foreach ($child_birthday as $birth) {
@@ -66,7 +66,7 @@ class Home extends BaseController
 			}
 
 			$data = [
-				'month' 	=> array_reverse(array_unique($month)),
+				'month' 	=>  array_unique($month),
 				'title' 	=> 'Home Dashboard',
 				'cabangs'	=> array_unique($cabangs),
 			];

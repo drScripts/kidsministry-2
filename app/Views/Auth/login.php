@@ -3,14 +3,12 @@
     <!-- Outer Row -->
     <div class="row justify-content-center mt-5">
         <div class="col-xl-10 col-lg-12 col-md-9">
-            <div class="card o-hidden border-0 shadow-lg my-5 py-5" data-aos="zoom-in" data-aos-duration="300" style="background-color: rgba(238, 241, 241, 1);">
+            <div class="card o-hidden border-0 shadow-lg my-2 py-5" data-aos="zoom-in" data-aos-duration="300" style="background-color: rgba(238, 241, 241, 1);">
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
                     <div class="row">
-                        <div class="col-lg-6 d-none d-lg-block" data-aos="flip-right" data-aos-duration="700" data-aos-delay="500">
-                            <img src="<?= base_url(); ?>/assets/img/Artboard.png" alt="">
-                        </div>
-                        <div class="col-lg-6 mt-5">
+                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                        <div class="col-lg-6 mt-2">
                             <div class="p-5">
                                 <div class="text-center" data-aos="zoom-in" data-aos-duration="700" data-aos-delay="500">
                                     <h1 class="h4 text-gray-900 mb-4 black-fonts">Welcome Back!</h1>
@@ -57,13 +55,13 @@
                                     <a class="small" href="forgot-password.html">Forgot Password?</a>
                                 </div> -->
                                 <?php if ($config->allowRegistration) : ?>
-                                <div class="text-center" data-aos="fade-left" data-aos-duration="700" data-aos-delay="1100">
-                                    <a class="small" href="<?= base_url(); ?>/register">Create an Account!</a>
-                                </div>
+                                    <div class="text-center" data-aos="fade-left" data-aos-duration="700" data-aos-delay="1100">
+                                        <a class="small" href="<?= base_url(); ?>/register">Create an Account!</a>
+                                    </div>
                                 <?php endif; ?>
                                 <?php if ($config->activeResetter) : ?>
                                     <div class="text-center" data-aos="fade-left" data-aos-duration="700" data-aos-delay="1100">
-                                        <a class="small" href="<?= route_to('forgot') ?>"><?=lang('Auth.forgotYourPassword')?></a>
+                                        <a class="small" href="<?= route_to('forgot') ?>"><?= lang('Auth.forgotYourPassword') ?></a>
                                     </div>
                                 <?php endif; ?>
                             </div>

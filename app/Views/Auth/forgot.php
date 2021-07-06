@@ -7,13 +7,11 @@
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
                     <div class="row">
-                        <div class="col-lg-6 d-none d-lg-block" data-aos="flip-right" data-aos-duration="700" data-aos-delay="500">
-                            <img src="<?= base_url(); ?>/assets/img/Artboard.png" alt="">
-                        </div>
+                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
                         <div class="col-lg-6 mt-5">
                             <div class="p-5">
                                 <div class="text-center" data-aos="zoom-in" data-aos-duration="700" data-aos-delay="500">
-                                    <h2 class="card-header black-fonts"><?= lang('Auth.forgotPassword') ?></h2>
+                                    <h2 class=" black-fonts"><?= lang('Auth.forgotPassword') ?></h2>
                                     <br>
                                 </div>
                                 <?= view('Myth\Auth\Views\_message_block') ?>

@@ -1,13 +1,11 @@
 <?= $this->include('template/header'); ?>
 
 <div class="container">
-    <div class="card o-hidden border-0 shadow-lg" style="margin-top:100px;" data-aos="zoom-in" data-aos-duration="500">
+    <div class="card o-hidden border-0 shadow-lg my-5" data-aos="zoom-in" data-aos-duration="500">
         <div class="card-body" style="background-color: rgba(238, 241, 241, 1);">
             <!-- Nested Row within Card Body -->
-            <div class="row mt-5 mb-5 mx-3">
-                <div class="col-lg-5 d-none d-lg-block" data-aos="flip-right" data-aos-duration="700" data-aos-delay="300">
-                    <img src="<?= base_url(); ?>/assets/img/Artboard.png" alt="">
-                </div>
+            <div class="row mt-2 mb-3 mx-3">
+                <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
                 <div class="col-lg-7">
                     <div class="p-5">
                         <div class="text-center" data-aos="zoom-in" data-aos-duration="700" data-aos-delay="500">
@@ -19,17 +17,15 @@
 
                             <div class="form-group row" data-aos="fade-left" data-aos-duration="700" data-aos-delay="500">
                                 <div class="col-sm mb-0">
-                                    <input type="text" class="form-control form-control-user black-fonts "
-                                        placeholder="Username" name="username" value="<?= old('username') ?>" required>
+                                    <input type="text" class="form-control form-control-user black-fonts " placeholder="Username" name="username" value="<?= old('username') ?>" required>
                                 </div>
                             </div>
 
                             <div class="form-group mb-2" data-aos="fade-left" data-aos-duration="700" data-aos-delay="600">
-                                <input type="email" class="form-control form-control-user black-fonts mb-sm-0 "
-                                    placeholder="Email Address" name="email" value="<?= old('email') ?>" required email>
+                                <input type="email" class="form-control form-control-user black-fonts mb-sm-0 " placeholder="Email Address" name="email" value="<?= old('email') ?>" required email>
                             </div>
 
-                            <div class="form-group row" >
+                            <div class="form-group row">
 
                                 <div class="col-sm-6 mb-2 mb-sm-0" data-aos="fade-right" data-aos-duration="700" data-aos-delay="700">
                                     <div class="input-group">
@@ -43,19 +39,17 @@
                                 </div>
 
                                 <div class="col-sm-6 mb-sm-0" data-aos="fade-left" data-aos-duration="700" data-aos-delay="700">
-                                    <input type="password" class="form-control form-control-user black-fonts  "
-                                        name="pass_confirm" placeholder="Repeat Password" required>
+                                    <input type="password" class="form-control form-control-user black-fonts  " name="pass_confirm" placeholder="Repeat Password" required>
                                 </div>
 
                             </div>
 
                             <div class="form-group" data-aos="fade-left" data-aos-duration="700" data-aos-delay="800">
                                 <div class="mb-2 mb-sm-0">
-                                    <select class="custom-select form-control black-fonts cabang" name="region" id="section"
-                                        required>
+                                    <select class="custom-select form-control black-fonts cabang" name="region" id="section" required>
                                         <option value="" class="cabang"> Select Cabang Region </option>
                                         <?php array_pop($cabangs); ?>
-                                        <?php foreach($cabangs as $cabang): ?>
+                                        <?php foreach ($cabangs as $cabang) : ?>
                                             <option class="cabang" value="<?= $cabang['id_cabang']; ?>"><?= $cabang['nama_cabang']; ?></option>
                                         <?php endforeach; ?>
                                     </select>

@@ -1,6 +1,6 @@
 <?= $this->extend('dashboard/bootstraper'); ?>
 <?= $this->section('content'); ?>
-<h1 data-aos="fade-right" data-aos-duration="500" data-aos-delay="300">Add Absensi</h1>
+
 
 
 <?php
@@ -60,7 +60,7 @@ if (date('D') == 'Wed' || date('D') == 'Thu' || date('D') == 'Fri' || date('D') 
   </div>';
 } elseif (date('D') == 'Tue') {
     if (strtotime('now') > (strtotime('today') + 17 * 60 * 60 + 30 * 60)) {
-        
+
         echo '<div class="alert alert-warning alert-with-icon" data-notify="container"> 
         <span data-notify="icon" class="tim-icons icon-alert-circle-exc"></span>
         <span data-notify="message">Data kemungkinan tidak akan masuk ke youtube namun tetap tersimpan</span>
@@ -71,171 +71,171 @@ if (date('D') == 'Wed' || date('D') == 'Thu' || date('D') == 'Fri' || date('D') 
 
 ?>
 
+<div class="container-fluid">
+    <h1 data-aos="fade-right" data-aos-duration="500" data-aos-delay="300">Add Absensi</h1>
+    <form action="<?= base_url('/absensi/insert'); ?>" method="POST" enctype="multipart/form-data">
 
-
-<form action="<?= base_url('/absensi/insert'); ?>" method="POST" enctype="multipart/form-data">
-
-    <?= csrf_field(); ?>
-    <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500" data-aos-delay="500">
-        <label for="pembimbing-select" class="white-fonts">Pembimbing Name</label>
-        <select name="pembimbing" id="pembimbing-select" class="form-control grey-fonts <?= ($validation->hasError('pembimbing')) ? 'is-invalid' : ''; ?>" required>
-            <option value="">Select Pembimbing Name</option>
-            <?php foreach ($pembimbings as $pembimbing) : ?>
-                <option value="<?= $pembimbing['id_pembimbing']; ?>">
-                    <?= $pembimbing['name_pembimbing']; ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-        <div class="invalid-feedback ">
-            <?= $validation->getError('pembimbing'); ?>
-        </div>
-    </div>
-
-    <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500" data-aos-delay="700">
-        <label for="children-select" class="white-fonts ">Children Name</label>
-        <select name="children" id="children-select" class="form-control grey-fonts <?= ($validation->hasError('children')) ? 'is-invalid' : ''; ?>" required>
-
-        </select>
-        <div class="invalid-feedback ">
-            <?= $validation->getError('children'); ?>
-        </div>
-    </div>
-
-    <?php if ($quiz) : ?>
-        <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500" data-aos-delay="900">
-            <label for="quiz-select" class="white-fonts">Children Quiz</label>
-            <select name="quiz" id="quiz-select" class="form-control grey-fonts <?= ($validation->hasError('quiz')) ? 'is-invalid' : ''; ?>" required>
-                <option value="">Select Children Quiz</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
+        <?= csrf_field(); ?>
+        <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500" data-aos-delay="500">
+            <label for="pembimbing-select" class="white-fonts">Pembimbing Name</label>
+            <select name="pembimbing" id="pembimbing-select" class="form-control grey-fonts <?= ($validation->hasError('pembimbing')) ? 'is-invalid' : ''; ?>" required>
+                <option value="">Select Pembimbing Name</option>
+                <?php foreach ($pembimbings as $pembimbing) : ?>
+                    <option value="<?= $pembimbing['id_pembimbing']; ?>">
+                        <?= $pembimbing['name_pembimbing']; ?>
+                    </option>
+                <?php endforeach; ?>
             </select>
             <div class="invalid-feedback ">
-                <?= $validation->getError('quiz'); ?>
+                <?= $validation->getError('pembimbing'); ?>
             </div>
         </div>
-    <?php endif; ?>
-    <?php if ($zoom) : ?>
-        <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500" data-aos-delay="900">
-            <label for="zoom-select" class="white-fonts">Children Zoom</label>
-            <select name="zoom" id="zoom-select" class="form-control grey-fonts <?= ($validation->hasError('zoom')) ? 'is-invalid' : ''; ?>" required>
-                <option value="">Select Children Zoom</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
+
+        <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500" data-aos-delay="700">
+            <label for="children-select" class="white-fonts ">Children Name</label>
+            <select name="children" id="children-select" class="form-control grey-fonts <?= ($validation->hasError('children')) ? 'is-invalid' : ''; ?>" required>
+
             </select>
-            <div class="invalid-feedback">
-                <?= $validation->getError('zoom'); ?>
+            <div class="invalid-feedback ">
+                <?= $validation->getError('children'); ?>
             </div>
         </div>
-    <?php endif; ?>
-    <?php if ($komsel) : ?>
-        <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500" data-aos-delay="900">
-            <label for="komsel-select" class="white-fonts">Children komsel</label>
-            <select name="komsel" id="komsel-select" class="form-control grey-fonts <?= ($validation->hasError('komsel')) ? 'is-invalid' : ''; ?>" required>
-                <option value="">Select Children komsel</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-            </select>
-            <div class="invalid-feedback">
-                <?= $validation->getError('komsel'); ?>
+
+        <?php if ($quiz) : ?>
+            <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500" data-aos-delay="900">
+                <label for="quiz-select" class="white-fonts">Children Quiz</label>
+                <select name="quiz" id="quiz-select" class="form-control grey-fonts <?= ($validation->hasError('quiz')) ? 'is-invalid' : ''; ?>" required>
+                    <option value="">Select Children Quiz</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+                <div class="invalid-feedback ">
+                    <?= $validation->getError('quiz'); ?>
+                </div>
             </div>
-        </div>
-    <?php endif; ?>
-     <?php if ($aba) : ?>
-        <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500">
-            <label for="zoom-select" class="white-fonts">Children ABA</label>
-            <div class="container">
+        <?php endif; ?>
+        <?php if ($zoom) : ?>
+            <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500" data-aos-delay="900">
+                <label for="zoom-select" class="white-fonts">Children Zoom</label>
+                <select name="zoom" id="zoom-select" class="form-control grey-fonts <?= ($validation->hasError('zoom')) ? 'is-invalid' : ''; ?>" required>
+                    <option value="">Select Children Zoom</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+                <div class="invalid-feedback">
+                    <?= $validation->getError('zoom'); ?>
+                </div>
+            </div>
+        <?php endif; ?>
+        <?php if ($komsel) : ?>
+            <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500" data-aos-delay="900">
+                <label for="komsel-select" class="white-fonts">Children komsel</label>
+                <select name="komsel" id="komsel-select" class="form-control grey-fonts <?= ($validation->hasError('komsel')) ? 'is-invalid' : ''; ?>" required>
+                    <option value="">Select Children komsel</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+                <div class="invalid-feedback">
+                    <?= $validation->getError('komsel'); ?>
+                </div>
+            </div>
+        <?php endif; ?>
+        <?php if ($aba) : ?>
+            <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500">
+                <label for="zoom-select" class="white-fonts">Children ABA</label>
                 <div class="container">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="aba" id="1" value="1" checked>
-                                <label class="form-check-label white-fonts" for="1">
-                                    1
-                                </label>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="aba" id="1" value="1" checked>
+                                    <label class="form-check-label white-fonts" for="1">
+                                        1
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="aba" id="2" value="2">
+                                    <label class="form-check-label white-fonts" for="2">
+                                        2
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="aba" id="3" value="3">
+                                    <label class="form-check-label white-fonts" for="3">
+                                        3
+                                    </label>
+                                </div>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="aba" id="2" value="2">
-                                <label class="form-check-label white-fonts" for="2">
-                                    2
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="aba" id="3" value="3">
-                                <label class="form-check-label white-fonts" for="3">
-                                    3
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="aba" id="4" value="4">
-                                <label class="form-check-label white-fonts" for="4">
-                                    4
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="aba" id="5" value="5">
-                                <label class="form-check-label white-fonts" for="5">
-                                    5
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="aba" id="6" value="6">
-                                <label class="form-check-label white-fonts" for="6">
-                                    6
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="aba" id="7" value="7">
-                                <label class="form-check-label white-fonts" for="7">
-                                    7
-                                </label>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="aba" id="4" value="4">
+                                    <label class="form-check-label white-fonts" for="4">
+                                        4
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="aba" id="5" value="5">
+                                    <label class="form-check-label white-fonts" for="5">
+                                        5
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="aba" id="6" value="6">
+                                    <label class="form-check-label white-fonts" for="6">
+                                        6
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="aba" id="7" value="7">
+                                    <label class="form-check-label white-fonts" for="7">
+                                        7
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="invalid-feedback">
-                <?= $validation->getError('aba'); ?>
-            </div>
-        </div>
-    <?php endif; ?>
-    <div class="d-flex justify-content-center mt-5">
-        <div class="row text-center">
-            <div class="col " data-aos="fade-right" data-aos-duration="500">
-                <div class="form-group">
-                    <label for="images">
-                        <div class="card text-center " id='image' style="width: 31.5rem;">
-                            <div class="card-body ">
-                                <img src="https://kesagami.com/wp-content/plugins/complete-gallery-manager/images/gallery_icon@2x.png" width="200px" height="200px" class="" alt="add picture">
-                                <input type="file" hidden id="images" accept="image/*" name='picture'>
-                                <h4 class="white-fonts mt-3 mb-2" id="image-name">Pick An Image</h4>
-                            </div>
-                        </div>
-                    </label>
+                <div class="invalid-feedback">
+                    <?= $validation->getError('aba'); ?>
                 </div>
             </div>
-            <div class="col " data-aos="fade-left" data-aos-duration="500">
-                <div class="form-group">
-                    <label for="videos">
-                        <div class="card " id="video" style="width: 31.5rem;">
-                            <div class="card-body ">
-                                <img src="https://www.freeiconspng.com/uploads/movie-icon-3.png" width="200px" height="200px" alt="add picture" class="">
-                                <input type="file" hidden id="videos" accept="video/*" name="video">
-                                <h4 class="white-fonts mt-3 mb-2" id="video-name">Pick An Video</h4>
+        <?php endif; ?>
+        <div class="d-flex justify-content-center mt-5">
+            <div class="row text-center">
+                <div class="col " data-aos="fade-right" data-aos-duration="500">
+                    <div class="form-group">
+                        <label for="images">
+                            <div class="card text-center " id='image' style="width: 31.5rem;">
+                                <div class="card-body ">
+                                    <img src="https://kesagami.com/wp-content/plugins/complete-gallery-manager/images/gallery_icon@2x.png" width="200px" height="200px" class="" alt="add picture">
+                                    <input type="file" hidden id="images" accept="image/*" name='picture'>
+                                    <h4 class="white-fonts mt-3 mb-2" id="image-name">Pick An Image</h4>
+                                </div>
                             </div>
-                        </div>
-                    </label>
+                        </label>
+                    </div>
+                </div>
+                <div class="col " data-aos="fade-left" data-aos-duration="500">
+                    <div class="form-group">
+                        <label for="videos">
+                            <div class="card " id="video" style="width: 31.5rem;">
+                                <div class="card-body ">
+                                    <img src="https://www.freeiconspng.com/uploads/movie-icon-3.png" width="200px" height="200px" alt="add picture" class="">
+                                    <input type="file" hidden id="videos" accept="video/*" name="video">
+                                    <h4 class="white-fonts mt-3 mb-2" id="video-name">Pick An Video</h4>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="d-flex justify-content-center">
-        <button type="submit" class="btn btn-primary mt-3">Submit</button>
-    </div>
-</form>
-
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary mt-3 mb-3">Submit</button>
+        </div>
+    </form>
+</div>
 <?php if (!$update) : ?>
     <script>
         Swal.fire({

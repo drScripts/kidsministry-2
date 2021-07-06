@@ -14,7 +14,7 @@ class PembimbingsModel extends Model
     protected $returnType     = 'array';
     protected $useSoftDeletes = true;
 
-    protected $allowedFields = ['name_pembimbing', 'region_pembimbing'];
+    protected $allowedFields = ['name_pembimbing', 'region_pembimbing', 'pembimbing_tgl_lahir'];
 
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';

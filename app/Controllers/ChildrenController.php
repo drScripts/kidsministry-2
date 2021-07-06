@@ -35,7 +35,7 @@ class ChildrenController extends BaseController
         $class = $this->classModel->findAll();
         if (!in_groups('pusat')) {
             // konek to database withh model 
-             $children_pageinate = $this->childrenModel->getChildren()->findAll();
+            $children_pageinate = $this->childrenModel->getChildren()->findAll();
 
             $data = [
                 'title'         => "Children's",
@@ -125,9 +125,9 @@ class ChildrenController extends BaseController
                 ]
             ]
         ];
-        
-        if($this->request->getVar('tgllhr')){
-           $validator['tgllhr'] =  [
+
+        if ($this->request->getVar('tgllhr')) {
+            $validator['tgllhr'] =  [
                 'rules'     => 'required|valid_date[Y-m-d]',
                 'errors'    => [
                     'valid_date'    => 'Date Must Be Valid Date',
@@ -159,14 +159,13 @@ class ChildrenController extends BaseController
         $update = $this->childrenModel->update($id, [
             'deleted_by'    => user()->toArray()['id'],
         ]);
-        if($update){
+        if ($update) {
             $delete = $this->childrenModel->delete($id);
-            if($delete){
+            if ($delete) {
                 session()->setFlashData('success_deleted', 'Children Success Fully Deleted');
                 return redirect()->to('/children');
             }
         }
-        
     }
 
     public function edit($id)
@@ -198,8 +197,7 @@ class ChildrenController extends BaseController
 
     public function update($id)
     {
-
-        $validate =  $this->validate([
+        $validator = [
             'children_name' => [
                 'rules'     => 'string|required|max_length[255]',
                 'errors'    => [
@@ -227,14 +225,18 @@ class ChildrenController extends BaseController
                     'required'  => 'Please Select The Children Pembimbing !'
                 ]
             ],
-            'tgllhr'    => [
+        ];
+
+        if ($this->request->getVar('tgllhr')) {
+            $validator['tgllhr'] =  [
                 'rules'     => 'required|valid_date[Y-m-d]',
                 'errors'    => [
                     'valid_date'    => 'Date Must Be Valid Date',
-                    'required'      => 'Please Select The Children Birth Day !'
-                ]
-            ],
-        ]);
+                    'required'      => 'Please Select The Children Birth Day !',
+                ],
+            ];
+        }
+        $validate =  $this->validate($validator);
 
         if (!$validate) {
             return redirect()->to('/children/edit/' . $id)->withInput();
@@ -246,7 +248,7 @@ class ChildrenController extends BaseController
             'code'          => $this->request->getVar('code'),
             'id_pembimbing' => $this->request->getVar('pembimbing'),
             'role'          => $this->request->getVar('role'),
-            'tanggal_lahir' => $this->request->getVar('tgllhr'),
+            'tanggal_lahir' => $this->request->getVar('tgllhr') == null ? null : $this->request->getVar('tgllhr'),
             'updated_by'    => user()->toArray()['id'],
         ]);
         session()->setFlashData('success_update', 'Children Data Successfully Updated');
@@ -359,14 +361,14 @@ class ChildrenController extends BaseController
         $file_name = $file_upload->getName();
 
         // path file name
-        $path_file = '../../../domains/kidsministry.site/public_html/temp_excel/' . $file_name;
-        
+        $path_file = '../public/temp_excel/' . $file_name;
+
         $inputType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($path_file);
         $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputType);
         $spreadSheet = $reader->load($path_file);
 
         $data = $spreadSheet->getActiveSheet()->toArray();
-        
+
         unlink($path_file);
 
         if ($data[0][0] != 'Nama Anak' || $data[0][1] != 'Code Anak' || $data[0][2] != 'Role/Kelas' || $data[0][3] != 'Nama Pembimbing') {
@@ -397,7 +399,7 @@ class ChildrenController extends BaseController
             $code = $datak[1] != null ? trim(strtoupper($datak[1])) : '-';
             $role = trim(ucwords($datak[2]));
             $pembimbing_name = trim(ucwords($datak[3]));
-            $ultah = $datak[4] == null ? null : date('Y-m-d', strtotime($datak[4]));
+            $ultah = $datak[4] == null || $datak[4] == 'Belum Ditambahkan' ? null : date('Y-m-d', strtotime($datak[4]));
 
             $nama_pembimbing[] = $pembimbing_name;
 
@@ -411,7 +413,7 @@ class ChildrenController extends BaseController
 
             $childrenArr[] = $temp_arr;
         }
-
+        dd($childrenArr);
         $kelas = $this->classModel->findAll();
         $fault = 0;
         foreach ($childrenArr as $temp) {

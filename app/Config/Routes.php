@@ -35,6 +35,7 @@ $routes->setAutoRoute(true);
 
 
 $routes->group('', ['filter' => 'role:admin,superadmin'], function ($routes) {
+	$routes->get('/coba', 'CobaController::index');
 
 	$routes->delete('/children/(:num)', 'ChildrenController::delete/$1');
 	$routes->get('/children/edit/(:num)', 'ChildrenController::edit/$1');
@@ -86,7 +87,7 @@ $routes->group('', ['filter' => 'role:superadmin,pusat,admin'], function ($route
 
 	$routes->get('/settings', 'PusatController::settings');
 	$routes->post('/settings/(:any)', 'PusatController::attemptSettings/$1');
-	
+
 	$routes->get('/children/trace', 'TraceController::index');
 	$routes->get('/children/trace/getYear/(:num)', 'TraceController::getYear/$1');
 	$routes->get('/children/trace/getMonth/(:any)', 'TraceController::getMonth/$1');

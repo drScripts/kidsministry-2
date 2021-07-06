@@ -6,14 +6,14 @@
             <div class="card o-hidden border-0 shadow-lg my-5 py-2" data-aos="zoom-in" data-aos-duration="300" style="background-color: rgba(238, 241, 241, 1);">
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
-                    <div class="row"> 
+                    <div class="row">
                         <div class="col-lg-12">
                             <div class="p-5">
                                 <div class="text-center" data-aos="zoom-in" data-aos-duration="700" data-aos-delay="500">
-                                    <h4 class="card-header black-fonts"><?= lang('Auth.enterCodeEmailPassword') ?></h4>
+                                    <h4 class="black-fonts"><?= lang('Auth.enterCodeEmailPassword') ?></h4>
                                 </div>
                                 <br>
-                                <?= view('Myth\Auth\Views\_message_block') ?> 
+                                <?= view('Myth\Auth\Views\_message_block') ?>
                                 <form class="user" action="<?= route_to('reset-password') ?>" method="post">
                                     <?= csrf_field() ?>
                                     <div class="form-group">
@@ -30,7 +30,7 @@
                                             <?= session('errors.email') ?>
                                         </div>
                                     </div>
- 
+
                                     <div class="form-group">
                                         <label for="password" class="black-fonts"><?= lang('Auth.newPassword') ?></label>
                                         <div class="input-group">
@@ -54,7 +54,7 @@
                                             <?= session('errors.pass_confirm') ?>
                                         </div>
                                     </div>
-                                    <button class="btn btn-primary btn-user btn-block" type="submit" data-aos="fade-left" data-aos-duration="700" ><?=lang('Auth.resetPassword')?></button>
+                                    <button class="btn btn-primary btn-user btn-block" type="submit" data-aos="fade-left" data-aos-duration="700"><?= lang('Auth.resetPassword') ?></button>
                                 </form>
                             </div>
                         </div>
