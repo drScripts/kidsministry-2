@@ -60,6 +60,9 @@ if (session()->getFlashData('success_add')) {
                     <?php if (in_groups('pusat')) : ?>
                         <th class="text-center">Cabang</th>
                     <?php else : ?>
+                        <?php if ($region == 'Kopo') : ?>
+                            <th class="text-center">Tanggal Lahir</th>
+                        <?php endif; ?>
                         <th class="text-center">Actions</th>
                     <?php endif; ?>
 
@@ -81,6 +84,11 @@ if (session()->getFlashData('success_add')) {
                             <td>
                                 <?= $pembimbing['name_pembimbing']; ?>
                             </td>
+                            <?php if ($region == 'Kopo') : ?>
+                                <td class="text-center">
+                                    <?= $pembimbing['pembimbing_tgl_lahir'] == null ? 'Belum Ditambahkan' : $pembimbing['pembimbing_tgl_lahir']; ?>
+                                </td>
+                            <?php endif; ?>
                             <?php if (!in_groups('pusat')) : ?>
                                 <td class="td-actions text-center">
                                     <a href="<?= base_url('pembimbing/edit') . '/' . $pembimbing['id_pembimbing']; ?>" rel="tooltip" class="mr-3 btn btn-success btn-sm btn-round btn-icon">

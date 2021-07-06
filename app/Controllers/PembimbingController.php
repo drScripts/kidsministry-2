@@ -33,6 +33,7 @@ class PembimbingController extends BaseController
             $data = [
                 'title'        => 'Pembimbing',
                 'pembimbings'  => $pembimbings,
+                'region'        => $this->cabangName['nama_cabang'],
             ];
         } else {
             $cabang = [];
