@@ -135,6 +135,29 @@ class AbsensiController extends BaseController
             }
         }
 
+        $date = [];
+        $date_jadi = [];
+        $dates_jadi = [];
+
+        $absensi = $this->absensiModel->where('year', date('Y'))->findAll();
+
+        foreach ($absensi as $absen) {
+            $date[] = $absen['sunday_date'];
+        }
+
+        $date = array_unique($date);
+        $date = array_reverse($date);
+
+        foreach ($date as $d) {
+            $date_jadi[] = $d;
+        }
+        array_splice($date_jadi, 6);
+
+        foreach ($date_jadi as $date) {
+            $month = explode(" ", $date)[1];
+            $dates_jadi["$month"][] = $date;
+        }
+
         $pembimbings = $this->pembimbingModel->where('region_pembimbing', user()->toArray()['region'])->get()->getResultArray();
 
         $data = [
@@ -146,6 +169,7 @@ class AbsensiController extends BaseController
             'komsel'        => boolval($this->komsel),
             'aba'           => boolval($this->aba),
             'update'        => $canUpdate,
+            'date'          => $dates_jadi,
         ];
 
         return view('dashboard/absensi/add', $data);
@@ -240,7 +264,13 @@ class AbsensiController extends BaseController
             return redirect()->to('/absensi/add')->withInput();
         }
 
-        $date_file_name = $this->getDateName();
+        $date_file_name = '';
+
+        if ($this->request->getVar('costume_date') != null) {
+            $date_file_name = $this->request->getVar('costume_date');
+        } else {
+            $date_file_name = $this->getDateName();
+        }
         $bulan = explode(' ', $date_file_name)[1];
 
         //// search PPl Kids Name
@@ -331,7 +361,7 @@ class AbsensiController extends BaseController
 
             if ($kelas == 'Pratama' && $regionName == 'Kopo') {
                 $pictId = $api->push_file($childrenName, $fotoIdBesar, $pictExt, $pictureFile);
-            } elseif ($kelas == 'Balita' || $kelas == 'Batita' || $kelas == 'Pratama' || $kelas == 'Daud' || $kelas == 'Samuel' || $kelas == 'Balita/Pratama') {
+            } elseif ($kelas == 'Balita' || $kelas == 'Batita' || $kelas == 'Pratama' || $kelas == 'Daud' || $kelas == 'Balita/Pratama') {
                 $pictId = $api->push_file($childrenName, $fotoIdKecil, $pictExt, $pictureFile);
             } elseif ($kelas == 'Teens') {
                 $pictId = $api->push_file($childrenName, $fotoIdTeen, $pictExt, $pictureFile);
@@ -347,7 +377,7 @@ class AbsensiController extends BaseController
             $video = 'yes';
             if ($kelas == 'Pratama' && $regionName == 'Kopo') {
                 $videoIds = $api->push_file($childrenName, $videoIdBesar, $videoExt, $videoFile);
-            } elseif ($kelas == 'Balita' || $kelas == 'Batita' || $kelas == 'Pratama' || $kelas == 'Pratama' || $kelas == 'Daud' || $kelas == 'Samuel' || $kelas == 'Balita/Pratama') {
+            } elseif ($kelas == 'Balita' || $kelas == 'Batita' || $kelas == 'Pratama' || $kelas == 'Pratama' || $kelas == 'Daud' || $kelas == 'Balita/Pratama') {
                 $videoIds = $api->push_file($childrenName, $videoIdKecil, $videoExt, $videoFile);
             } elseif ($kelas == 'Teens') {
                 $videoIds = $api->push_file($childrenName, $videoIdTeen, $videoExt, $videoFile);

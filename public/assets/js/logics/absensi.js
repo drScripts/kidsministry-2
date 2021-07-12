@@ -583,4 +583,18 @@ $(document).ready(function () {
       });
     }
   });
+
+  $("#costume-date-row").hide();
+
+  $("#costume-date").on("change", function () {
+    if (this.checked) {
+      $("#costume-date-row").show();
+      $("#override-date").removeAttr("disabled");
+      $("#override-date").attr("required", true);
+    } else {
+      $("#costume-date-row").hide();
+      $("#override-date").removeAttr("required");
+      $("#override-date").attr("disabled", true);
+    }
+  });
 });

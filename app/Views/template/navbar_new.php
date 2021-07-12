@@ -59,7 +59,7 @@ $cabang = $cabangModel->getCabang(user()->toArray()['region'])['nama_cabang'];
 
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
-        <li class="nav-item dropdown no-arrow mx-1 d-md-block d-sm-block d-xs-block d-lg-none">
+        <li class="nav-item dropdown no-arrow mx-1 d-md-none d-sm-none d-xs-block d-lg-none">
             <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="alert" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-info-circle"></i>
             </a>

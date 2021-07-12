@@ -262,33 +262,37 @@ class ChildrenController extends BaseController
 
         $arrChildren = $this->childrenModel->getChildren()->get()->getResultArray();
 
-        $sheet->setCellValue('A1', 'Nama Anak');
-        $sheet->setCellValue('B1', 'Code Anak');
-        $sheet->setCellValue('C1', 'Role/Kelas');
-        $sheet->setCellValue('D1', 'Nama Pembimbing');
-        $sheet->setCellValue('E1', 'Tanggal Lahir (Tahun-Bulan-Tanggal)');
+        $sheet->setCellValue('A1', 'ID (Jangan Diubah)');
+        $sheet->setCellValue('B1', 'Nama Anak');
+        $sheet->setCellValue('C1', 'Code Anak');
+        $sheet->setCellValue('D1', 'Role/Kelas');
+        $sheet->setCellValue('E1', 'Nama Pembimbing');
+        $sheet->setCellValue('F1', 'Tanggal Lahir (Tahun-Bulan-Tanggal)');
 
         $index = 2;
         foreach ($arrChildren as $children) {
-            $sheet->setCellValue('A' . $index, $children['children_name']);
-            $sheet->setCellValue('B' . $index, $children['code']);
-            $sheet->setCellValue('C' . $index, $children['nama_kelas']);
-            $sheet->setCellValue('D' . $index, $children['name_pembimbing']);
-            $sheet->setCellValue('E' . $index, $children['tanggal_lahir'] == null ? "Belum Ditambahkan" : $children['tanggal_lahir']);
+            $sheet->setCellValue('A' . $index, $children['id_children']);
+            $sheet->setCellValue('B' . $index, $children['children_name']);
+            $sheet->setCellValue('C' . $index, $children['code']);
+            $sheet->setCellValue('D' . $index, $children['nama_kelas']);
+            $sheet->setCellValue('E' . $index, $children['name_pembimbing']);
+            $sheet->setCellValue('F' . $index, $children['tanggal_lahir'] == null ? "Belum Ditambahkan" : $children['tanggal_lahir']);
             $index++;
         }
 
-        $spredsheet->getActiveSheet()->getColumnDimension('A')->setWidth(40);
-        $spredsheet->getActiveSheet()->getColumnDimension('B')->setWidth(20);
-        $spredsheet->getActiveSheet()->getColumnDimension('C')->setWidth(15);
-        $spredsheet->getActiveSheet()->getColumnDimension('D')->setWidth(30);
-        $spredsheet->getActiveSheet()->getColumnDimension('E')->setWidth(35);
+        $spredsheet->getActiveSheet()->getColumnDimension('A')->setWidth(20);
+        $spredsheet->getActiveSheet()->getColumnDimension('B')->setWidth(40);
+        $spredsheet->getActiveSheet()->getColumnDimension('C')->setWidth(20);
+        $spredsheet->getActiveSheet()->getColumnDimension('D')->setWidth(15);
+        $spredsheet->getActiveSheet()->getColumnDimension('E')->setWidth(30);
+        $spredsheet->getActiveSheet()->getColumnDimension('F')->setWidth(35);
 
-        $spredsheet->getActiveSheet()->getStyle('B')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $spredsheet->getActiveSheet()->getStyle('A')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
         $spredsheet->getActiveSheet()->getStyle('C')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-        $spredsheet->getActiveSheet()->getStyle('E')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $spredsheet->getActiveSheet()->getStyle('D')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $spredsheet->getActiveSheet()->getStyle('F')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 
-        $spredsheet->getActiveSheet()->getStyle('A1:E1')->getFont()->setBold(9);
+        $spredsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setBold(9);
 
         $writter = IOFactory::createWriter($spredsheet, 'Xlsx');
 

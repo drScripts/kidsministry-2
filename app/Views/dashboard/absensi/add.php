@@ -76,6 +76,30 @@ if (date('D') == 'Wed' || date('D') == 'Thu' || date('D') == 'Fri' || date('D') 
     <form action="<?= base_url('/absensi/insert'); ?>" method="POST" enctype="multipart/form-data">
 
         <?= csrf_field(); ?>
+
+        <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500" data-aos-delay="500">
+            <div class="d-block">
+                <input type="checkbox" id="costume-date">
+                <label for="costume-date" class="white-fonts">Costume Date</label>
+            </div>
+            <div id="costume-date-row">
+                <label for="override-date" class="white-fonts">Pick Costum Date</label>
+                <select name="costume_date" id="override-date" class="form-control grey-fonts" disabled>
+                    <option value="">Select Date</option>
+                    <?php foreach ($date as $key => $d) : ?>
+                        <optgroup label="Bulan <?= $key; ?>">
+                            <?php foreach ($d as $dates) : ?>
+                                <option>
+                                    <?= $dates; ?>
+                                </option>
+                            <?php endforeach ?>
+                        </optgroup>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+
+
         <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500" data-aos-delay="500">
             <label for="pembimbing-select" class="white-fonts">Pembimbing Name</label>
             <select name="pembimbing" id="pembimbing-select" class="form-control grey-fonts <?= ($validation->hasError('pembimbing')) ? 'is-invalid' : ''; ?>" required>
