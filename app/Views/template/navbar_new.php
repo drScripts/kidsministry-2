@@ -3,16 +3,30 @@
 use App\Models\CabangModel;
 use App\Models\ChildrenModel;
 use App\Controllers\AbsensiController;
+use App\Models\PembimbingsModel;
 
 $absensiController = new AbsensiController();
+$cabangModel = new CabangModel();
+$region = $cabangModel->find(user()->toArray()['region'])['nama_cabang'];
+
 
 $sundayDate = $absensiController->getDateName();
 if (!in_groups('pusat')) {
     $childrenModel = new ChildrenModel();
+    $pembimbingModel = new PembimbingsModel();
 
 
     $anakUltah = [];
+    $pembimbingUltah = [];
     $childBirthDay = $childrenModel->birthDayChildren();
+    $pembimbingBirthDay = $pembimbingModel->getBirthDay();
+
+    foreach ($pembimbingBirthDay as $pembimbing) {
+        if (date('m') == date('m', strtotime($pembimbing['pembimbing_tgl_lahir']))) {
+            $pembimbingUltah[] = $pembimbing;
+        }
+    }
+
     foreach ($childBirthDay as $child) {
         if (date('m') == date('m', strtotime($child['tanggal_lahir']))) {
             $anakUltah[] = $child;
@@ -55,6 +69,47 @@ $cabang = $cabangModel->getCabang(user()->toArray()['region'])['nama_cabang'];
             </div>
         </li>
         <?php if (!in_groups('pusat')) : ?>
+
+            <?php if ($region == 'Kopo') : ?>
+                <li class="nav-item dropdown no-arrow mx-1">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="pembimbingUltah" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-universal-access"></i>
+                        <!-- Counter - Alerts -->
+                        <span class="badge badge-danger badge-counter"><?= (count($pembimbingUltah) > 9 ? "9+" : count($pembimbingUltah)) ?></span>
+                    </a>
+                    <!-- Dropdown - Alerts -->
+                    <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="pembimbingUltah">
+                        <h6 class="dropdown-header">
+                            Pembimbing Birthday Notification
+                        </h6>
+                        <?php if (empty($pembimbingUltah)) : ?>
+                            <a class="dropdown-item d-flex align-items-center" href="javascript:void(0)">
+                                <div class="text-center">
+                                    <span class="font-weight-bold text-center">Tidak Ada Guru Yang Ulang Tahun Bulan Ini!</span>
+                                </div>
+                            </a>
+                        <?php else : ?>
+                            <?php foreach ($pembimbingUltah as $birthDay) : ?>
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:void(0)">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-birthday-cake text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">
+                                            <?= date('M d, Y', strtotime($birthDay['pembimbing_tgl_lahir'])); ?> </div>
+                                        <span class="font-weight-bold"><?= $birthDay['name_pembimbing']; ?>, Ulang Tahun Bulan ini!</span>
+                                    </div>
+                                </a>
+                            <?php endforeach; ?>
+
+                        <?php endif; ?>
+                        <a class="dropdown-item text-center small text-gray-500" href="javascript:void(0)">End Of Alerts</a>
+                    </div>
+                </li>
+            <?php endif; ?>
+
             <!-- Nav Item - Alerts Birthday -->
             <li class="nav-item dropdown no-arrow mx-1">
                 <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -93,6 +148,7 @@ $cabang = $cabangModel->getCabang(user()->toArray()['region'])['nama_cabang'];
                     <a class="dropdown-item text-center small text-gray-500" href="javascript:void(0)">End Of Alerts</a>
                 </div>
             </li>
+
             <div class="topbar-divider d-none d-sm-block"></div>
         <?php endif; ?>
 

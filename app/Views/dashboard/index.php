@@ -156,6 +156,23 @@
       </script>
       ";
   } ?>
+
+  <?php if (count($pembimbingUltah) != 0 && $region == 'Kopo') : ?>
+    <script>
+      Swal.fire({
+        title: 'Ada <?= count($pembimbingUltah); ?> Guru Yang Ulang Tahun Bulan Ini !',
+        width: 700,
+        padding: '3em',
+        allowOutsideClick: false,
+        imageUrl: 'https://i.gifer.com/3TsW.gif',
+        backdrop: `
+            rgba(0,0,123,0.4)
+            url('" . base_url('assets/img/confe.gif') . "')
+            left top
+          `
+      });
+    </script>
+  <?php endif; ?>
   <script src="<?= base_url('assets/js/logics/index.js'); ?>"></script>
 <?php else : ?>
   <script src="<?= base_url('/assets/js/logics/pusat.js'); ?>"></script>

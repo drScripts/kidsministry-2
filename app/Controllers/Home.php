@@ -3,7 +3,9 @@
 namespace App\Controllers;
 
 use App\Models\AbsensiModel;
+use App\Models\CabangModel;
 use App\Models\ChildrenModel;
+use App\Models\PembimbingsModel;
 use App\Models\UserModel;
 
 class Home extends BaseController
@@ -12,12 +14,18 @@ class Home extends BaseController
 	protected $absensiModel;
 	protected $childrenModel;
 	protected $userModel;
+	protected $pembimbingModel;
+	protected $cabangModel;
+	protected $cabangName;
 
 	public function __construct()
 	{
 		$this->absensiModel = new AbsensiModel();
 		$this->childrenModel = new ChildrenModel();
 		$this->userModel = new UserModel();
+		$this->pembimbingModel = new PembimbingsModel();
+		$this->cabangModel = new CabangModel();
+		$this->cabangName = $this->cabangModel->find(user()->toArray()['region'])['nama_cabang'];
 	}
 
 	public function dashboard()
@@ -27,12 +35,22 @@ class Home extends BaseController
 		if (!in_groups('pusat')) {
 			$notify = user()->toArray()['notify_birthday'];
 			$child_birthday = $this->childrenModel->birthDayChildren();
+			$pembimbingBirth = $this->pembimbingModel->getBirthDay();
+
 			$ultah = [];
 			foreach ($child_birthday as $birth) {
 				if (date('m') == date('m', strtotime($birth['tanggal_lahir']))) {
 					$ultah[] = $birth;
 				}
 			}
+
+			$pembimbingUltah = [];
+			foreach ($pembimbingBirth as $pembimbing) {
+				if (date('m') == date('m', strtotime($pembimbing['pembimbing_tgl_lahir']))) {
+					$pembimbingUltah[] = $pembimbing;
+				}
+			}
+
 			$datas = $this->absensiModel->join('pembimbings', "pembimbings.id_pembimbing = absensis.pembimbing_id")
 				->where('region_pembimbing', user()->toArray()['region'])
 				->where('year', $date)
@@ -48,6 +66,8 @@ class Home extends BaseController
 				'title' 	=> 'Home Dashboard',
 				'notif_birthday'		=> $notify,
 				'children_birthday'		=> $ultah,
+				'pembimbingUltah'		=> $pembimbingUltah,
+				'region'				=> $this->cabangName,
 			];
 		} else {
 			$datas = $this->absensiModel->join('pembimbings', "pembimbings.id_pembimbing = absensis.pembimbing_id")

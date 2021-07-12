@@ -26,4 +26,12 @@ class PembimbingsModel extends Model
     {
         return $this->table($this->table)->where('region_pembimbing', user()->toArray()['region']);
     }
+
+    public function getBirthDay()
+    {
+        return $this->table('pembimbings')
+            ->where('region_pembimbing', user()->toArray()['region'])
+            ->where('pembimbing_tgl_lahir !=', null)
+            ->findAll();
+    }
 }
