@@ -26,6 +26,7 @@ class AbsensiController extends BaseController
     protected $zoom;
     protected $aba;
     protected $komsel;
+    protected $region_name;
 
     public function __construct()
     {
@@ -40,6 +41,8 @@ class AbsensiController extends BaseController
         $this->zoom = $getRegionDate['zoom'];
         $this->komsel = $getRegionDate['komsel'];
         $this->aba = $getRegionDate['aba'];
+
+        $this->region_name = $this->cabangModel->find(user()->toArray()['region'])['nama_cabang'];
     }
 
     public function index()
@@ -170,6 +173,7 @@ class AbsensiController extends BaseController
             'aba'           => boolval($this->aba),
             'update'        => $canUpdate,
             'date'          => $dates_jadi,
+            'region_name'   => $this->region_name
         ];
 
         return view('dashboard/absensi/add', $data);
@@ -177,6 +181,7 @@ class AbsensiController extends BaseController
 
     public function validator()
     {
+
         $validator = [
             'pembimbing' => [
                 'rules'     => 'required|integer',
@@ -210,7 +215,7 @@ class AbsensiController extends BaseController
         ];
 
 
-        if (boolval($this->quiz)) {
+        if (boolval($this->quiz) && $this->request->getVar('quiz') != null) {
             $validator['quiz'] =  [
                 'rules'     => 'required|string|max_length[5]',
                 'errors'    => [
@@ -220,7 +225,7 @@ class AbsensiController extends BaseController
                 ],
             ];
         }
-        if (boolval($this->zoom)) {
+        if (boolval($this->zoom) && $this->request->getVar('zoom') != null) {
             $validator['zoom'] = [
                 'rules'     => 'required|string|max_length[5]',
                 'errors'    => [
@@ -231,7 +236,7 @@ class AbsensiController extends BaseController
             ];
         }
 
-        if (boolval($this->aba)) {
+        if (boolval($this->aba) && $this->request->getVar('aba') != null) {
             $validator['aba'] = [
                 'rules'     => 'required|max_length[1]',
                 'errors'    => [
@@ -241,7 +246,7 @@ class AbsensiController extends BaseController
             ];
         }
 
-        if (boolval($this->komsel)) {
+        if (boolval($this->komsel) && $this->request->getVar('komsel') != null) {
             $validator['komsel'] = [
                 'rules'     => 'required|string|max_length[5]',
                 'errors'    => [
@@ -263,7 +268,6 @@ class AbsensiController extends BaseController
         if (!$validate) {
             return redirect()->to('/absensi/add')->withInput();
         }
-
         $date_file_name = '';
 
         if ($this->request->getVar('costume_date') != null) {
@@ -273,36 +277,6 @@ class AbsensiController extends BaseController
         }
         $bulan = explode(' ', $date_file_name)[1];
 
-        //// search PPl Kids Name
-        $pplParentId = $api->searchPplKidsFolder();
-
-        //// search grouping folder name
-        $group = $api->search_group_date_folder('Foto Video Anak - Bulan ' . $bulan, $pplParentId);
-
-        //// search date folder 
-        $dateFolderId = $api->search_parents_date_folder($date_file_name, $group);
-
-        //// search region folder
-        $regionName = $this->cabangModel->find(user()->toArray()['region'])['nama_cabang'];
-        $regionFolderId = $api->search_parents_folder($regionName, $dateFolderId);
-
-        //// search Besar Folder
-        $besarId = $api->search_parents_folder('Besar', $regionFolderId);
-        $kecilId = $api->search_parents_folder('Kecil', $regionFolderId);
-        $teenId = $api->search_parents_folder('Teens', $regionFolderId);
-
-        ///// search Foto Folder Besar
-        $fotoIdBesar = $api->search_parents_folder('Foto', $besarId);
-        $fotoIdKecil = $api->search_parents_folder('Foto', $kecilId);
-        $fotoIdTeen = $api->search_parents_folder('Foto', $teenId);
-
-        //// search Video Folder
-        $videoIdBesar = $api->search_parents_folder('Video', $besarId);
-        $videoIdKecil = $api->search_parents_folder('Video', $kecilId);
-        $videoIdTeen = $api->search_parents_folder('Video', $teenId);
-
-
-
         //// get all request
         $pembimbingId = $this->request->getVar('pembimbing');
         $childrenId = $this->request->getVar('children');
@@ -311,25 +285,25 @@ class AbsensiController extends BaseController
         $zoom = '';
         $aba = '';
         $komsel = '';
-        if (boolval($this->quiz)) {
+        if (boolval($this->quiz) && $this->request->getVar('quiz') != null) {
             $quiz = $this->request->getVar('quiz');
         } else {
             $quiz = '-';
         }
 
-        if (boolval($this->zoom)) {
+        if (boolval($this->zoom) && $this->request->getVar('zoom') != null) {
             $zoom = $this->request->getVar('zoom');
         } else {
             $zoom = '-';
         }
 
-        if (boolval($this->aba)) {
+        if (boolval($this->aba) && $this->request->getVar('aba') != null) {
             $aba = $this->request->getVar('aba');
         } else {
             $aba = '-';
         }
 
-        if (boolval($this->komsel)) {
+        if (boolval($this->komsel) && $this->request->getVar('komsel') != null) {
             $komsel = $this->request->getVar('komsel');
         } else {
             $komsel = '-';
@@ -338,12 +312,40 @@ class AbsensiController extends BaseController
         $videoFile = $this->request->getFile('video');
         $pictureFile = $this->request->getFile('picture');
 
+        if ($pictureFile->getName() != "" || $videoFile->getName() != "") {
+            //// search PPl Kids Name
+            $pplParentId = $api->searchPplKidsFolder();
+
+            //// search grouping folder name
+            $group = $api->search_group_date_folder('Foto Video Anak - Bulan ' . $bulan, $pplParentId);
+
+            //// search date folder 
+            $dateFolderId = $api->search_parents_date_folder($date_file_name, $group);
+
+            //// search region folder
+            $regionName = $this->cabangModel->find(user()->toArray()['region'])['nama_cabang'];
+            $regionFolderId = $api->search_parents_folder($regionName, $dateFolderId);
+
+            //// search Besar Folder
+            $besarId = $api->search_parents_folder('Besar', $regionFolderId);
+            $kecilId = $api->search_parents_folder('Kecil', $regionFolderId);
+            $teenId = $api->search_parents_folder('Teens', $regionFolderId);
+
+            ///// search Foto Folder Besar
+            $fotoIdBesar = $api->search_parents_folder('Foto', $besarId);
+            $fotoIdKecil = $api->search_parents_folder('Foto', $kecilId);
+            $fotoIdTeen = $api->search_parents_folder('Foto', $teenId);
+
+            //// search Video Folder
+            $videoIdBesar = $api->search_parents_folder('Video', $besarId);
+            $videoIdKecil = $api->search_parents_folder('Video', $kecilId);
+            $videoIdTeen = $api->search_parents_folder('Video', $teenId);
+        }
 
         //// get Children name by id
         $children = $this->childrenModel->getSingleChildren($childrenId);
         $childrenName = $children['children_name'];
         $kelas = $children['nama_kelas'];
-
 
         //// extension the file
         $pictExt = null;
@@ -638,7 +640,7 @@ class AbsensiController extends BaseController
 
     public function getAbsensiByPembimbing($id)
     {
-        $children =  $this->childrenModel->where('id_pembimbing', $id)->findAll();
+        $children =  $this->childrenModel->join('kelas', 'kelas.id_class = childrens.role')->where('id_pembimbing', $id)->findAll();
         return json_encode($children);
     }
 

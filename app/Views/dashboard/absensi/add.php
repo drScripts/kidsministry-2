@@ -126,7 +126,7 @@ if (date('D') == 'Wed' || date('D') == 'Thu' || date('D') == 'Fri' || date('D') 
         </div>
 
         <?php if ($quiz) : ?>
-            <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500" data-aos-delay="900">
+            <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500" data-aos-delay="900" id="quiz-field">
                 <label for="quiz-select" class="white-fonts">Children Quiz</label>
                 <select name="quiz" id="quiz-select" class="form-control grey-fonts <?= ($validation->hasError('quiz')) ? 'is-invalid' : ''; ?>" required>
                     <option value="">Select Children Quiz</option>
@@ -139,7 +139,7 @@ if (date('D') == 'Wed' || date('D') == 'Thu' || date('D') == 'Fri' || date('D') 
             </div>
         <?php endif; ?>
         <?php if ($zoom) : ?>
-            <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500" data-aos-delay="900">
+            <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500" data-aos-delay="900" id="zoom-field">
                 <label for="zoom-select" class="white-fonts">Children Zoom</label>
                 <select name="zoom" id="zoom-select" class="form-control grey-fonts <?= ($validation->hasError('zoom')) ? 'is-invalid' : ''; ?>" required>
                     <option value="">Select Children Zoom</option>
@@ -152,7 +152,7 @@ if (date('D') == 'Wed' || date('D') == 'Thu' || date('D') == 'Fri' || date('D') 
             </div>
         <?php endif; ?>
         <?php if ($komsel) : ?>
-            <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500" data-aos-delay="900">
+            <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500" data-aos-delay="900" id="komsel-field">
                 <label for="komsel-select" class="white-fonts">Children komsel</label>
                 <select name="komsel" id="komsel-select" class="form-control grey-fonts <?= ($validation->hasError('komsel')) ? 'is-invalid' : ''; ?>" required>
                     <option value="">Select Children komsel</option>
@@ -165,7 +165,7 @@ if (date('D') == 'Wed' || date('D') == 'Thu' || date('D') == 'Fri' || date('D') 
             </div>
         <?php endif; ?>
         <?php if ($aba) : ?>
-            <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500">
+            <div class="form-group form-check" data-aos="fade-right" data-aos-duration="500" id="aba-field">
                 <label for="zoom-select" class="white-fonts">Children ABA</label>
                 <div class="container">
                     <div class="container">
@@ -226,7 +226,7 @@ if (date('D') == 'Wed' || date('D') == 'Thu' || date('D') == 'Fri' || date('D') 
         <?php endif; ?>
         <div class="d-flex justify-content-center mt-5">
             <div class="row text-center">
-                <div class="col " data-aos="fade-right" data-aos-duration="500">
+                <div class="col " data-aos="fade-right" data-aos-duration="500" id="img-field">
                     <div class="form-group">
                         <label for="images">
                             <div class="card text-center " id='image' style="width: 31.5rem;">
@@ -239,7 +239,7 @@ if (date('D') == 'Wed' || date('D') == 'Thu' || date('D') == 'Fri' || date('D') 
                         </label>
                     </div>
                 </div>
-                <div class="col " data-aos="fade-left" data-aos-duration="500">
+                <div class="col " data-aos="fade-left" data-aos-duration="500" id="vid-field">
                     <div class="form-group">
                         <label for="videos">
                             <div class="card " id="video" style="width: 31.5rem;">
@@ -256,7 +256,7 @@ if (date('D') == 'Wed' || date('D') == 'Thu' || date('D') == 'Fri' || date('D') 
         </div>
 
         <div class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-primary mt-3 mb-3">Submit</button>
+            <button type="submit" class="btn btn-primary mt-3 mb-3" id="submit-buttons">Submit</button>
         </div>
     </form>
 </div>
@@ -282,6 +282,11 @@ if (date('D') == 'Wed' || date('D') == 'Thu' || date('D') == 'Fri' || date('D') 
 <?php endif; ?>
 
 <script src="<?= base_url('/assets/js/logics/absensi.js'); ?>"></script>
+
+<?php if ($region_name == 'Kopo') : ?>
+    <script src="<?= base_url('/assets/js/logics/costume-absensi-kelas.js'); ?>"></script>
+<?php endif; ?>
+
 <script>
     function readURL(input) {
         if (input.files && input.files[0]) {

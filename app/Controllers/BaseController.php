@@ -38,7 +38,7 @@ class BaseController extends Controller
 	 * @param LoggerInterface   $logger
 	 */
 
-	 protected $region;
+	protected $region;
 	public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
 	{
 		// Do Not Edit This Line
@@ -48,8 +48,8 @@ class BaseController extends Controller
 		// Preload any models, libraries, etc, here.
 		//--------------------------------------------------------------------
 		// E.g.: $this->session = \Config\Services::session();
-		
-        session();
+
+		session();
 		$this->region = user()->toArray()['region'];
 	}
 }

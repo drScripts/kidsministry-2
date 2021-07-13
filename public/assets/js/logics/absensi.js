@@ -281,7 +281,9 @@ $(document).ready(function () {
         success: function (datas) {
           $.each(datas, function (i, data) {
             $("#children-select").append(
-              '<option value="' +
+              '<option kelas="' +
+                data.nama_kelas +
+                '" value="' +
                 data.id_children +
                 '">' +
                 data.children_name +
