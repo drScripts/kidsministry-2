@@ -67,6 +67,16 @@
                           </select>
                         </label>
                       <?php endif; ?>
+                      <?php if (!in_groups('pusat')) : ?>
+                        <label id="0" class="ml-2">
+                          <select id="kelas" class="form-control card-select">
+                            <option>All Kelas</option>
+                            <?php foreach ($kelas as $c) : ?>
+                              <option><?= $c; ?></option>
+                            <?php endforeach; ?>
+                          </select>
+                        </label>
+                      <?php endif; ?>
                       <label id="0" class="ml-2">
                         <select id="month" class="form-control card-select">
                           <?php foreach ($month as $m) : ?>

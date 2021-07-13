@@ -223,7 +223,10 @@ $.ajax({
   },
 });
 
+let kelasOption = $("#kelas").html();
+
 $("#month").on("change", function () {
+  $("#kelas").html(kelasOption);
   month = $(this).val();
 
   chart_labels_month = [];
@@ -287,4 +290,131 @@ $("#month").on("change", function () {
       var myChartData = new Chart(ctxs, configs);
     },
   });
+});
+
+$("#kelas").on("change", function () {
+  let kelas = $(this).val();
+  month = $("#month").val();
+
+  chart_labels_month = [];
+  chart_data_month = [];
+  $("#canvas2").html("");
+  $("#canvas2").append('<canvas id="chartBig2"></canvas>');
+
+  if (kelas == "All Kelas") {
+    $.ajax({
+      url: "/chart/" + month,
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+      },
+      dataType: "json",
+      success: function (data) {
+        $.each(data, function (i, datas) {
+          chart_labels_month.push(datas.week);
+          chart_data_month.push(datas.jumlah);
+        });
+        var ctxs = document.getElementById("chartBig2").getContext("2d");
+
+        var ctxs = document.getElementById("chartBig2").getContext("2d");
+
+        var gradientStrokes = ctxs.createLinearGradient(0, 230, 0, 50);
+
+        gradientStrokes.addColorStop(1, "rgba(72,72,176,0.1)");
+        gradientStrokes.addColorStop(0.4, "rgba(72,72,176,0.0)");
+        gradientStrokes.addColorStop(0, "rgba(119,52,169,0)"); //purple colors
+        var configs = {
+          type: "line",
+          data: {
+            labels: chart_labels_month,
+            datasets: [
+              {
+                label: "Jumlah Absensi Mingguan",
+                fill: true,
+                backgroundColor: [
+                  "rgba(255, 99, 132, 0.2)",
+                  "rgba(54, 162, 235, 0.2)",
+                  "rgba(255, 206, 86, 0.2)",
+                  "rgba(75, 192, 192, 0.2)",
+                  "rgba(153, 102, 255, 0.2)",
+                  "rgba(255, 159, 64, 0.2)",
+                ],
+                borderColor: "#d346b1",
+                borderWidth: 2,
+                borderDash: [],
+                borderDashOffset: 0.0,
+                pointBackgroundColor: "#d346b1",
+                pointBorderColor: "rgba(255,255,255,0)",
+                pointHoverBackgroundColor: "#d346b1",
+                pointBorderWidth: 20,
+                pointHoverRadius: 4,
+                pointHoverBorderWidth: 15,
+                pointRadius: 4,
+                data: chart_data_month,
+              },
+            ],
+          },
+          options: gradient2,
+        };
+        var myChartData = new Chart(ctxs, configs);
+      },
+    });
+  } else {
+    $.ajax({
+      url: "/chart/" + month + "/" + kelas,
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+      },
+      dataType: "json",
+      success: function (data) {
+        console.log("/chart/" + month + "/" + kelas);
+        $.each(data, function (i, datas) {
+          chart_labels_month.push(datas.week);
+          chart_data_month.push(datas.jumlah);
+        });
+        var ctxs = document.getElementById("chartBig2").getContext("2d");
+
+        var ctxs = document.getElementById("chartBig2").getContext("2d");
+
+        var gradientStrokes = ctxs.createLinearGradient(0, 230, 0, 50);
+
+        gradientStrokes.addColorStop(1, "rgba(72,72,176,0.1)");
+        gradientStrokes.addColorStop(0.4, "rgba(72,72,176,0.0)");
+        gradientStrokes.addColorStop(0, "rgba(119,52,169,0)"); //purple colors
+        var configs = {
+          type: "line",
+          data: {
+            labels: chart_labels_month,
+            datasets: [
+              {
+                label: "Jumlah Absensi Mingguan",
+                fill: true,
+                backgroundColor: [
+                  "rgba(255, 99, 132, 0.2)",
+                  "rgba(54, 162, 235, 0.2)",
+                  "rgba(255, 206, 86, 0.2)",
+                  "rgba(75, 192, 192, 0.2)",
+                  "rgba(153, 102, 255, 0.2)",
+                  "rgba(255, 159, 64, 0.2)",
+                ],
+                borderColor: "#d346b1",
+                borderWidth: 2,
+                borderDash: [],
+                borderDashOffset: 0.0,
+                pointBackgroundColor: "#d346b1",
+                pointBorderColor: "rgba(255,255,255,0)",
+                pointHoverBackgroundColor: "#d346b1",
+                pointBorderWidth: 20,
+                pointHoverRadius: 4,
+                pointHoverBorderWidth: 15,
+                pointRadius: 4,
+                data: chart_data_month,
+              },
+            ],
+          },
+          options: gradient2,
+        };
+        var myChartData = new Chart(ctxs, configs);
+      },
+    });
+  }
 });

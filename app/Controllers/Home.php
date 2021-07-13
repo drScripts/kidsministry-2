@@ -57,6 +57,18 @@ class Home extends BaseController
 				->get()
 				->getResultArray();
 
+			$class = [];
+
+			$childrens = $this->childrenModel
+				->join('kelas', 'kelas.id_class = childrens.role')
+				->join('pembimbings', 'pembimbings.id_pembimbing = childrens.id_pembimbing')
+				->where('region_pembimbing', user()->toArray()['region'])
+				->findAll();
+			foreach ($childrens as $child) {
+				$class[] = $child['nama_kelas'];
+			}
+			$class = array_unique($class);
+
 			foreach ($datas as $data) {
 				$month[] = $data['month'];
 			}
@@ -68,6 +80,8 @@ class Home extends BaseController
 				'children_birthday'		=> $ultah,
 				'pembimbingUltah'		=> $pembimbingUltah,
 				'region'				=> $this->cabangName,
+				'kelas'					=> $class,
+				'region_name'			=> $this->cabangName
 			];
 		} else {
 			$datas = $this->absensiModel->join('pembimbings', "pembimbings.id_pembimbing = absensis.pembimbing_id")
@@ -95,32 +109,66 @@ class Home extends BaseController
 		return view('dashboard/index', $data);
 	}
 
-	public function getChartWeek($month)
+	public function getChartWeek($month, $kelas = null)
 	{
-
-		$date = date('Y');
-
-		$datas = $this->absensiModel->join('pembimbings', "pembimbings.id_pembimbing = absensis.pembimbing_id")->where('region_pembimbing', user()->toArray()['region'])->where('year', $date)->where('month', $month)->get()->getResultArray();
-
-
-		$week = [];
-
-		foreach ($datas as $w) {
-			$week[] = $w['sunday_date'];
-		}
-
-		$fixed_week = array_unique($week);
-
 		$data = [];
+		if ($kelas == null) {
+			$date = date('Y');
 
-		foreach ($fixed_week as $f) {
-			$data_temp = $this->absensiModel->join('pembimbings', "pembimbings.id_pembimbing = absensis.pembimbing_id")->where('region_pembimbing', user()->toArray()['region'])->where('sunday_date', $f)->countAllResults();
+			$datas = $this->absensiModel->join('pembimbings', "pembimbings.id_pembimbing = absensis.pembimbing_id")->where('region_pembimbing', user()->toArray()['region'])->where('year', $date)->where('month', $month)->findAll();
 
-			if ($data_temp != 0) {
-				$data[] = [
-					'week'	 => $f,
-					'jumlah' => $data_temp,
-				];
+
+			$week = [];
+
+			foreach ($datas as $w) {
+				$week[] = $w['sunday_date'];
+			}
+
+			$fixed_week = array_unique($week);
+
+			foreach ($fixed_week as $f) {
+				$data_temp = $this->absensiModel->join('pembimbings', "pembimbings.id_pembimbing = absensis.pembimbing_id")->where('region_pembimbing', user()->toArray()['region'])->where('sunday_date', $f)->countAllResults();
+
+				if ($data_temp != 0) {
+					$data[] = [
+						'week'	 => $f,
+						'jumlah' => $data_temp,
+					];
+				}
+			}
+		} else {
+			$date = date('Y');
+
+			$datas = $this->absensiModel
+				->join('pembimbings', "pembimbings.id_pembimbing = absensis.pembimbing_id")
+				->where('region_pembimbing', user()->toArray()['region'])
+				->where('year', $date)
+				->where('month', $month)
+				->findAll();
+			$week = [];
+
+			foreach ($datas as $w) {
+				$week[] = $w['sunday_date'];
+			}
+
+			$fixed_week = array_unique($week);
+
+
+			foreach ($fixed_week as $f) {
+				$data_temp = $this->absensiModel
+					->join('pembimbings', "pembimbings.id_pembimbing = absensis.pembimbing_id")
+					->join('childrens', 'childrens.id_children = absensis.children_id')
+					->join('kelas', 'kelas.id_class = childrens.role')
+					->where('region_pembimbing', user()->toArray()['region'])
+					->where('nama_kelas', $kelas)
+					->where('sunday_date', $f)
+					->countAllResults();
+				if ($data_temp != 0) {
+					$data[] = [
+						'week'	 => $f,
+						'jumlah' => $data_temp,
+					];
+				}
 			}
 		}
 

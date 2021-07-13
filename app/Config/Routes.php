@@ -71,6 +71,7 @@ $routes->group('', ['filter' => 'role:admin,superadmin'], function ($routes) {
 	$routes->get('/export/(:any)/(:any)', "AbsensiController::export/$1/$2");
 	$routes->get('/chart', "AbsensiController::chartAbsensi");
 	$routes->get('/chart/(:any)', "Home::getChartWeek/$1");
+	$routes->get('/chart/(:any)/(:any)', "Home::getChartWeek/$1/$2");
 });
 
 $routes->group('', ['filter' => 'role:superadmin,pusat,admin'], function ($routes) {
